@@ -15,6 +15,7 @@ PADDLE_WIDTH = 60
 PADDLE_HEIGHT = 10
 RADIUS_OF_BALL = 10
 NUM_TURNS = 3
+ROWS_PER_COLUMN = 2
 
 # Sets up the colors
 RED = (255, 0, 0)
@@ -28,17 +29,24 @@ WHITE = (255, 255, 255)
 pygame.init()
 mainsurface = pygame.display.set_mode((APPLICATION_WIDTH, APPLICATION_HEIGHT), 0, 32)
 pygame.display.set_caption("Breakout")
-mainsurface.fill((255, 255, 255))
+mainsurface.fill((0, 0, 0))
 
 # Step 1: Use loops to draw the rows of bricks. The top row of bricks should be 70 pixels away from the top of
 # the screen (BRICK_Y_OFFSET)
 x_pos = BRICK_SEP
 y_pos = BRICK_Y_OFFSET
-for x in range(BRICKS_PER_ROW):
-    b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, RED)
-    b.rect.x = x_pos
-    b.rect.y = y_pos
-    mainsurface.blit(b.image, b.rect)
+COLORS = [RED, ORANGE, YELLOW, GREEN, CYAN]
+for COLOR in COLORS:
+    for x in range(2):
+        for x in range(BRICKS_PER_ROW):
+            b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, COLOR)
+            b.rect.x = x_pos
+            b.rect.y = y_pos
+            mainsurface.blit(b.image, b.rect)
+            x_pos += BRICK_WIDTH + BRICK_SEP
+        x_pos = BRICK_SEP
+        y_pos += BRICK_HEIGHT + BRICK_SEP
+
 
 
 while True:
@@ -48,4 +56,4 @@ while True:
             sys.exit()
 
 
-
+    pygame.display.update()

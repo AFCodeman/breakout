@@ -7,7 +7,7 @@ class Ball(pygame.sprite.Sprite):
         super().__init__()
 
         # finish setting the class variables to the parameters
-        self.color =
+        self.color = self.image.fill(self.color)
 
         # Create a surface, get the rect coordinates, fill the surface with a white color (or whatever color the
         # background of your breakout game will be.
