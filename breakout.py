@@ -3,6 +3,8 @@ from pygame.locals import *
 import brick
 
 # Constants that will be used in the program
+import paddle
+
 APPLICATION_WIDTH = 400
 APPLICATION_HEIGHT = 600
 PADDLE_Y_OFFSET = 30
@@ -15,7 +17,6 @@ PADDLE_WIDTH = 60
 PADDLE_HEIGHT = 10
 RADIUS_OF_BALL = 10
 NUM_TURNS = 3
-ROWS_PER_COLUMN = 2
 
 # Sets up the colors
 RED = (255, 0, 0)
@@ -47,13 +48,22 @@ for COLOR in COLORS:
         x_pos = BRICK_SEP
         y_pos += BRICK_HEIGHT + BRICK_SEP
 
+p = paddle.Paddle(PADDLE_WIDTH, PADDLE_HEIGHT, WHITE)
+p.rect.x = APPLICATION_WIDTH / 2
+p.rect.y = APPLICATION_HEIGHT - PADDLE_Y_OFFSET
+mainsurface.blit(p.image, p.rect)
 
+name = pygame.sprite.Group()
+name.add(b.Brick)
 
 while True:
+    mainsurface.fill(BLACK)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-
+        elif event.type == MOUSEMOTION:
+            p.move(pygame.mouse.get_pos())
+    mainsurface.blit(p.image, p.rect)
 
     pygame.display.update()
