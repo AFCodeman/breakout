@@ -1,5 +1,7 @@
 import pygame, sys
 from pygame.locals import *
+
+import ball
 import brick
 
 # Constants that will be used in the program
@@ -34,6 +36,7 @@ mainsurface.fill((0, 0, 0))
 
 # Step 1: Use loops to draw the rows of bricks. The top row of bricks should be 70 pixels away from the top of
 # the screen (BRICK_Y_OFFSET)
+bricks = pygame.sprite.Group()
 x_pos = BRICK_SEP
 y_pos = BRICK_Y_OFFSET
 COLORS = [RED, ORANGE, YELLOW, GREEN, CYAN]
@@ -41,6 +44,7 @@ for COLOR in COLORS:
     for x in range(2):
         for x in range(BRICKS_PER_ROW):
             b = brick.Brick(BRICK_WIDTH, BRICK_HEIGHT, COLOR)
+            bricks.add(b)
             b.rect.x = x_pos
             b.rect.y = y_pos
             mainsurface.blit(b.image, b.rect)
@@ -53,11 +57,16 @@ p.rect.x = APPLICATION_WIDTH / 2
 p.rect.y = APPLICATION_HEIGHT - PADDLE_Y_OFFSET
 mainsurface.blit(p.image, p.rect)
 
-name = pygame.sprite.Group()
-name.add(b.Brick)
+bl = ball.Ball(WHITE, APPLICATION_WIDTH , APPLICATION_HEIGHT , 10)
+bl.rect.x = APPLICATION_WIDTH / 2
+bl.rect.y = APPLICATION_HEIGHT / 2
+mainsurface.blit(bl.image, bl.rect)
+
 
 while True:
     mainsurface.fill(BLACK)
+    for brick in bricks:
+        mainsurface.blit(brick.image, brick.rect)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
@@ -65,5 +74,7 @@ while True:
         elif event.type == MOUSEMOTION:
             p.move(pygame.mouse.get_pos())
     mainsurface.blit(p.image, p.rect)
-
+    mainsurface.blit(bl.image, bl.rect)
+    bl.move()
+    mainsurface.blit(bl.image, bl.rect)
     pygame.display.update()
