@@ -22,4 +22,3 @@ class Paddle(pygame.sprite.Sprite):
 
     def move(self, mouse):
         self.rect.x = mouse[0]
-
